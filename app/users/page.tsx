@@ -9,7 +9,12 @@ import {
   DescriptionItem,
   DescriptionList,
   Drawer,
+  FormControl,
+  FormField,
+  Input,
+  Modal,
   PageHeader,
+  Select,
   toast,
   useServerTable,
   type Column,
@@ -48,6 +53,8 @@ export default function UsersPage() {
   const [loading, setLoading] = useState(true)
   const [selected, setSelected] = useState<Set<string | number>>(new Set())
   const [detail, setDetail] = useState<User | null>(null)
+  const [createOpen, setCreateOpen] = useState(false)
+  const [creating, setCreating] = useState(false)
 
   useEffect(() => {
     let cancelled = false
@@ -91,7 +98,71 @@ export default function UsersPage() {
 
   return (
     <div className="flex flex-col gap-6">
-      <PageHeader title="Users" description="Server-side pagination, sorting, and filtering." />
+      <PageHeader
+        title="Users"
+        description="Server-side pagination, sorting, and filtering."
+        actions={<Button onClick={() => setCreateOpen(true)}>New user</Button>}
+      />
+
+      {/* Form dialog: Modal onSubmit wraps everything in a real <form>, so the
+          footer submit button reaches the fields — no form="id" plumbing */}
+      <Modal
+        open={createOpen}
+        onClose={() => setCreateOpen(false)}
+        title="New user"
+        description="They'll receive an invitation email."
+        onSubmit={async (e) => {
+          e.preventDefault()
+          const form = new FormData(e.currentTarget)
+          setCreating(true)
+          try {
+            await new Promise((r) => setTimeout(r, 400)) // wire your API here
+            toast.success('User created', { description: String(form.get('email')) })
+            setCreateOpen(false)
+          } catch (err) {
+            toast.fromError(err, { prefix: 'Failed to create user' })
+          } finally {
+            setCreating(false)
+          }
+        }}
+        footer={
+          <>
+            <Button type="button" variant="outline" onClick={() => setCreateOpen(false)}>
+              Cancel
+            </Button>
+            <Button type="submit" loading={creating}>
+              Create user
+            </Button>
+          </>
+        }
+      >
+        <div className="space-y-4">
+          {/* FormField label shorthand (0.15) — renders a wired FormLabel */}
+          <FormField name="name" label="Full name" required>
+            <FormControl>
+              <Input name="name" required placeholder="Kai Chen" />
+            </FormControl>
+          </FormField>
+          <FormField name="email" label="Email" required>
+            <FormControl>
+              <Input name="email" type="email" required placeholder="kai@example.com" />
+            </FormControl>
+          </FormField>
+          <FormField name="role" label="Role">
+            <FormControl>
+              <Select
+                name="role"
+                defaultValue="viewer"
+                options={[
+                  { value: 'admin', label: 'Admin' },
+                  { value: 'editor', label: 'Editor' },
+                  { value: 'viewer', label: 'Viewer' },
+                ]}
+              />
+            </FormControl>
+          </FormField>
+        </div>
+      </Modal>
       <DataTable
         data={data.rows}
         columns={columns}
