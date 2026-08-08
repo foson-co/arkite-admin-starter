@@ -1,0 +1,8 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "@arkite-ui/core/styles.css";
+
+/* Tailwind v4 skips node_modules by default — tell it to scan the component
+   library so its utility classes are generated. (Not needed once the library
+   ships this @source itself.) */
+@source "../node_modules/@arkite-ui/core/dist";
