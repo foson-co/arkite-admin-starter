@@ -1,0 +1,41 @@
+name: Traffic snapshot
+
+# GitHub traffic data (views/clones/referrers) only lives for 14 days —
+# snapshot it weekly onto the traffic-data branch so history accumulates.
+# That branch is GitHub-only and never touched by the GitLab mirror flow.
+
+on:
+  schedule:
+    - cron: '17 2 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  snapshot:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Collect and store
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          R="$GITHUB_REPOSITORY"
+          D=$(date -u +%F)
+          if ! gh api "repos/$R/git/ref/heads/traffic-data" >/dev/null 2>&1; then
+            SHA=$(gh api "repos/$R/git/ref/heads/main" -q .object.sha)
+            gh api -X POST "repos/$R/git/refs" -f ref=refs/heads/traffic-data -f sha="$SHA" >/dev/null
+          fi
+          put() {
+            gh api -X PUT "repos/$R/contents/snapshots/$D/$1.json" \
+              -f branch=traffic-data -f message="traffic: $D $1" \
+              -f content="$(base64 -w0 /tmp/x.json)" >/dev/null
+          }
+          for e in views clones popular/referrers popular/paths; do
+            gh api "repos/$R/traffic/$e" > /tmp/x.json || echo '{}' > /tmp/x.json
+            put "$(echo "$e" | tr '/' '-')"
+          done
+          true
+          
+          gh api "repos/$R" > /tmp/x.json && put repo-stats
