@@ -4,7 +4,7 @@ A **Next.js admin panel starter** built on [`@arkite-ui/core`](https://www.npmjs
 
 Clone it, run it, and you have a working back-office in two minutes: an admin layout with desktop sidebar and mobile bottom tabs, a server-side paginated data table, a settings form, and a stats dashboard. Every visual comes from the component library — **zero custom CSS in this repo**.
 
-**[Component library docs →](https://ui.foson.co)** · **[Storybook →](https://ui.foson.co/storybook/)**
+**[Live demo →](https://starter.foson.co)** · **[Component library docs →](https://ui.foson.co)** · **[Storybook →](https://ui.foson.co/storybook/)**
 
 ## Quick start
 

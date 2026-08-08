@@ -10,13 +10,11 @@ import {
   type Column,
 } from '@arkite-ui/core'
 
-interface User {
-  id: number
-  name: string
-  email: string
-  role: 'Admin' | 'Editor' | 'Viewer'
-  status: 'active' | 'inactive'
-}
+import { queryUsers, type User } from '../../lib/mock-users'
+
+// The hosted live demo is a static export with no server — it calls the mock
+// directly in the browser. Your real app keeps the fetch path only.
+const IS_STATIC_DEMO = process.env.NEXT_PUBLIC_STATIC_DEMO === '1'
 
 const columns: Column<User>[] = [
   { key: 'name', header: 'Name', sortable: true },
@@ -48,20 +46,32 @@ export default function UsersPage() {
     let cancelled = false
     setLoading(true)
     const { page, pageSize, sort, filters } = table.query
-    const params = new URLSearchParams({ page: String(page), pageSize: String(pageSize) })
-    if (sort?.direction) {
-      params.set('sortKey', sort.key)
-      params.set('sortDir', sort.direction)
+    const query = {
+      page,
+      pageSize,
+      sortKey: sort?.direction ? sort.key : null,
+      sortDir: sort?.direction ?? null,
+      role: filters.role ?? [],
     }
-    for (const value of filters.role ?? []) params.append('role', value)
 
-    fetch(`/api/users?${params}`)
-      .then((res) => {
-        if (!res.ok) throw new Error(`HTTP ${res.status}`)
-        return res.json()
-      })
+    const load = IS_STATIC_DEMO
+      ? // Live demo: no server behind GitHub Pages — run the mock in-browser
+        new Promise((r) => setTimeout(r, 250)).then(() => queryUsers(query))
+      : fetch(
+          `/api/users?${new URLSearchParams([
+            ['page', String(query.page)],
+            ['pageSize', String(query.pageSize)],
+            ...(query.sortKey ? ([['sortKey', query.sortKey], ['sortDir', query.sortDir!]] as [string, string][]) : []),
+            ...query.role.map((r): [string, string] => ['role', r]),
+          ])}`
+        ).then((res) => {
+          if (!res.ok) throw new Error(`HTTP ${res.status}`)
+          return res.json()
+        })
+
+    load
       .then((json) => {
-        if (!cancelled) setData(json)
+        if (!cancelled) setData(json as { rows: User[]; total: number })
       })
       .catch((err) => toast.fromError(err, { prefix: 'Failed to load users' }))
       .finally(() => {
