@@ -173,7 +173,14 @@ export default function DashboardPage() {
         </Card>
 
         <Card>
-          <CardHeader title="Recent activity" />
+          <CardHeader
+            title="Recent activity"
+            actions={
+              <Button variant="link" onClick={() => (location.href = './activity/')}>
+                View all →
+              </Button>
+            }
+          />
           <CardContent>
             <Timeline
               items={[

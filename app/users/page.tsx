@@ -6,6 +6,9 @@ import {
   BulkActionBar,
   Button,
   DataTable,
+  DescriptionItem,
+  DescriptionList,
+  Drawer,
   PageHeader,
   toast,
   useServerTable,
@@ -44,6 +47,7 @@ export default function UsersPage() {
   const [data, setData] = useState<{ rows: User[]; total: number }>({ rows: [], total: 0 })
   const [loading, setLoading] = useState(true)
   const [selected, setSelected] = useState<Set<string | number>>(new Set())
+  const [detail, setDetail] = useState<User | null>(null)
 
   useEffect(() => {
     let cancelled = false
@@ -98,9 +102,50 @@ export default function UsersPage() {
         selectable
         selectedRows={selected}
         onSelectionChange={setSelected}
+        onRowClick={(u) => setDetail(u)}
         rowClassName={(u) => (u.status === 'inactive' ? 'opacity-60' : '')}
         {...table.props}
       />
+
+      {/* Row click -> side detail drawer: the most common admin navigation */}
+      <Drawer
+        open={detail != null}
+        onClose={() => setDetail(null)}
+        title={detail?.name}
+        description={detail?.email}
+        footer={
+          <>
+            <Button variant="outline" onClick={() => setDetail(null)}>
+              Close
+            </Button>
+            <Button
+              onClick={() => {
+                toast.success(`Invitation re-sent to ${detail?.email}`)
+                setDetail(null)
+              }}
+            >
+              Re-send invite
+            </Button>
+          </>
+        }
+      >
+        {detail && (
+          <DescriptionList divider>
+            <DescriptionItem label="ID" value={`#${detail.id}`} />
+            <DescriptionItem label="Role" value={detail.role} />
+            <DescriptionItem
+              label="Status"
+              value={
+                <Badge variant={detail.status === 'active' ? 'success' : 'secondary'}>
+                  {detail.status}
+                </Badge>
+              }
+            />
+            <DescriptionItem label="Email" value={detail.email} />
+            <DescriptionItem label="Joined" value="2026-03-14" />
+          </DescriptionList>
+        )}
+      </Drawer>
 
       {/* Floating bulk-action bar — appears once rows are selected */}
       <BulkActionBar selectedCount={selected.size} onClose={() => setSelected(new Set())}>
