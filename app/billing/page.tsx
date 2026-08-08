@@ -10,6 +10,9 @@ import {
   ConfirmDialog,
   CopyButton,
   DateRangePicker,
+  DescriptionItem,
+  DescriptionList,
+  Drawer,
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
@@ -62,6 +65,7 @@ export default function BillingPage() {
   const [q, setQ] = useState('')
   const [status, setStatus] = useState('')
   const [voidTarget, setVoidTarget] = useState<Invoice | null>(null)
+  const [viewTarget, setViewTarget] = useState<Invoice | null>(null)
 
   const rows = useMemo(
     () =>
@@ -81,7 +85,7 @@ export default function BillingPage() {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
-        <DropdownMenuItem onSelect={() => toast.info(`Opening ${inv.id}…`)}>View</DropdownMenuItem>
+        <DropdownMenuItem onSelect={() => setViewTarget(inv)}>View</DropdownMenuItem>
         <DropdownMenuItem onSelect={() => toast.success(`${inv.id}.pdf downloading`)}>
           Download PDF
         </DropdownMenuItem>
@@ -191,6 +195,74 @@ export default function BillingPage() {
           ))}
         </div>
       )}
+
+      {/* Invoice detail drawer */}
+      <Drawer
+        open={viewTarget != null}
+        onClose={() => setViewTarget(null)}
+        title={viewTarget?.id}
+        description={viewTarget?.tenant}
+        footer={
+          <>
+            <Button variant="outline" onClick={() => setViewTarget(null)}>
+              Close
+            </Button>
+            <Button onClick={() => toast.success(`${viewTarget?.id}.pdf downloading`)}>
+              Download PDF
+            </Button>
+          </>
+        }
+      >
+        {viewTarget && (
+          <div className="space-y-6">
+            <DescriptionList divider>
+              <DescriptionItem
+                label="Invoice"
+                value={
+                  <span className="inline-flex items-center gap-1">
+                    {viewTarget.id}
+                    <CopyButton value={viewTarget.id} size="sm" aria-label="Copy invoice number" />
+                  </span>
+                }
+              />
+              <DescriptionItem
+                label="Status"
+                value={<Badge variant={STATUS_VARIANT[viewTarget.status]}>{viewTarget.status}</Badge>}
+              />
+              <DescriptionItem label="Issued" value={viewTarget.issued} />
+              <DescriptionItem
+                label="Total"
+                value={<span className="font-semibold tabular-nums">{viewTarget.amount}</span>}
+              />
+            </DescriptionList>
+
+            <div>
+              <p className="mb-2 text-sm font-medium">Line items</p>
+              <Table compact hoverable={false}>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>Item</TableHead>
+                    <TableHead align="right">Qty</TableHead>
+                    <TableHead align="right">Amount</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  <TableRow>
+                    <TableCell>Pro seats</TableCell>
+                    <TableCell numeric>24</TableCell>
+                    <TableCell numeric>{viewTarget.amount}</TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell>Usage overage</TableCell>
+                    <TableCell numeric>—</TableCell>
+                    <TableCell numeric>$0</TableCell>
+                  </TableRow>
+                </TableBody>
+              </Table>
+            </div>
+          </div>
+        )}
+      </Drawer>
 
       <ConfirmDialog
         open={voidTarget != null}

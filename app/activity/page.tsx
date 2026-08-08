@@ -51,7 +51,7 @@ export default function ActivityPage() {
   const visible = filter === 'all' ? items : items.filter((a) => a.kind === filter)
 
   return (
-    <div className="flex max-w-4xl flex-col gap-6">
+    <div className="flex flex-col gap-6">
       <PageHeader
         title="Activity"
         description="Cursor-paginated feed — scroll to the bottom to load more."
