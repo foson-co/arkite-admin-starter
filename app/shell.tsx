@@ -122,6 +122,15 @@ export function AppShell({ children }: { children: ReactNode }) {
     >
       {children}
 
+      {/* Delete freely — or leave it and every deploy links the library */}
+      <footer className="mt-10 border-t pt-4 text-center text-xs text-muted-foreground">
+        Built with{' '}
+        <a href="https://ui.foson.co" className="underline underline-offset-2 hover:text-foreground">
+          Arkite UI
+        </a>{' '}
+        — React components for SaaS admin panels
+      </footer>
+
       {/* ⌘K command palette — useCommandPalette binds the shortcut */}
       <CommandDialog open={palette.open} onClose={() => palette.setOpen(false)}>
         <CommandInput placeholder="Jump to…" />
