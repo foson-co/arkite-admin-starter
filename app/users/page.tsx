@@ -83,7 +83,7 @@ export default function UsersPage() {
   }, [table.query])
 
   return (
-    <div className="mx-auto flex max-w-5xl flex-col gap-6">
+    <div className="flex flex-col gap-6">
       <PageHeader title="Users" description="Server-side pagination, sorting, and filtering." />
       <DataTable
         data={data.rows}

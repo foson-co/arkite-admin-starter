@@ -16,7 +16,7 @@ const revenue = [8, 11, 9, 14, 12, 16, 19, 17, 22, 24, 21, 28]
 
 export default function DashboardPage() {
   return (
-    <div className="mx-auto flex max-w-5xl flex-col gap-6">
+    <div className="flex flex-col gap-6">
       <PageHeader
         title="Dashboard"
         description="Everything on this page is @arkite-ui/core — no custom CSS."
