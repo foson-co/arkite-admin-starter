@@ -1,5 +1,6 @@
 'use client'
 
+import Link from 'next/link'
 import { useState } from 'react'
 import {
   Alert,
@@ -69,6 +70,11 @@ export default function ComponentsPage() {
           { label: 'Library' },
           { label: 'Components' },
         ]}
+        renderLink={({ href, children, className }) => (
+          <Link href={href} className={className}>
+            {children}
+          </Link>
+        )}
       />
 
       <CollapsibleSection title="Inputs" description="Form controls beyond Input/Select" defaultOpen>
