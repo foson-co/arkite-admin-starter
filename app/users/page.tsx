@@ -3,6 +3,8 @@
 import { useEffect, useState } from 'react'
 import {
   Badge,
+  BulkActionBar,
+  Button,
   DataTable,
   PageHeader,
   toast,
@@ -41,6 +43,7 @@ export default function UsersPage() {
   const table = useServerTable({ initialPageSize: 20 })
   const [data, setData] = useState<{ rows: User[]; total: number }>({ rows: [], total: 0 })
   const [loading, setLoading] = useState(true)
+  const [selected, setSelected] = useState<Set<string | number>>(new Set())
 
   useEffect(() => {
     let cancelled = false
@@ -92,9 +95,38 @@ export default function UsersPage() {
         loading={loading}
         totalRows={data.total}
         compact
+        selectable
+        selectedRows={selected}
+        onSelectionChange={setSelected}
         rowClassName={(u) => (u.status === 'inactive' ? 'opacity-60' : '')}
         {...table.props}
       />
+
+      {/* Floating bulk-action bar — appears once rows are selected */}
+      <BulkActionBar selectedCount={selected.size} onClose={() => setSelected(new Set())}>
+        <Button
+          size="sm"
+          variant="outline"
+          onClick={() => {
+            toast.success(`Exported ${selected.size} users`, {
+              description: 'A CSV download would start here.',
+            })
+            setSelected(new Set())
+          }}
+        >
+          Export CSV
+        </Button>
+        <Button
+          size="sm"
+          variant="destructive"
+          onClick={() => {
+            toast.success(`Deactivated ${selected.size} users`)
+            setSelected(new Set())
+          }}
+        >
+          Deactivate
+        </Button>
+      </BulkActionBar>
     </div>
   )
 }
