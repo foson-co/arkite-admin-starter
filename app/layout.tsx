@@ -1,4 +1,5 @@
 import './globals.css'
+import Script from 'next/script'
 import type { ReactNode } from 'react'
 import { AppShell } from './shell'
 
@@ -13,6 +14,12 @@ export default function RootLayout({ children }: { children: ReactNode }) {
     <html lang="en">
       <body>
         <AppShell>{children}</AppShell>
+        {/* Cloudflare Web Analytics — shared foson.co site, filter by hostname */}
+        <Script
+          src="https://static.cloudflareinsights.com/beacon.min.js"
+          strategy="afterInteractive"
+          data-cf-beacon='{"token": "8c2976d201ff4eb09e89382e42ee62c6"}'
+        />
       </body>
     </html>
   )
