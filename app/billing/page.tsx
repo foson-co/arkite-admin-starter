@@ -115,7 +115,16 @@ export default function BillingPage() {
               { value: 'overdue', label: 'Overdue' },
             ]}
           />
-          <DateRangePicker size="sm" startLabel="From" endLabel="To" onChange={() => {}} />
+          {/* labelPlacement="inside": a stacked label would add a line above
+              the inputs and drop them out of alignment with the search box
+              and select on this row. */}
+          <DateRangePicker
+            size="sm"
+            startLabel="From"
+            endLabel="To"
+            labelPlacement="inside"
+            onChange={() => {}}
+          />
         </FilterBarFilters>
         <FilterBarActions>
           <ViewToggle value={view} onChange={setView} />

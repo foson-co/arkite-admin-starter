@@ -195,9 +195,10 @@ export default function ReportsPage() {
       </FilterBar>
 
       {/*
-        DataTable already draws its own bordered surface, so it is not wrapped
-        in a Card. The Card here exists only to carry the title: padding="none",
-        CardContent p-0, and the table's own frame reduced to a top rule.
+        DataTable already draws its own bordered surface. The Card here exists
+        only to carry the title: padding="none", CardContent p-0, and
+        bordered={false} on the table so the two frames don't stack — leaving
+        it bordered logs a dev-only warning.
       */}
       <Card padding="none">
         <CardHeader
@@ -213,7 +214,8 @@ export default function ReportsPage() {
             pagination={false}
             compact
             emptyContent="No tenants match these filters."
-            className="rounded-none border-0 border-t"
+            bordered={false}
+            className="border-t"
           />
         </CardContent>
       </Card>
