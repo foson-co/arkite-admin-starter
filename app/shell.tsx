@@ -18,7 +18,7 @@ import {
   type AdminNavGroup,
   type TenantItem,
 } from '@arkite-ui/core'
-import { CreditCard, History, Home, LayoutGrid, Search, Settings, Users } from 'lucide-react'
+import { BarChart3, CreditCard, History, Home, LayoutGrid, Search, Settings, Users } from 'lucide-react'
 import { useState, type ReactNode } from 'react'
 
 // ── App-level wiring, done once ────────────────────────────────────────
@@ -35,6 +35,7 @@ const navigation: AdminNavGroup[] = [
       { path: '/', label: 'Dashboard', icon: <Home size={16} /> },
       { path: '/users', label: 'Users', icon: <Users size={16} /> },
       { path: '/billing', label: 'Billing', icon: <CreditCard size={16} /> },
+      { path: '/reports', label: 'Reports', icon: <BarChart3 size={16} /> },
       { path: '/activity', label: 'Activity', icon: <History size={16} /> },
       { path: '/settings', label: 'Settings', icon: <Settings size={16} /> },
     ],
