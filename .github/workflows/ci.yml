@@ -17,5 +17,17 @@ jobs:
         with:
           node-version: 22
       - run: pnpm install --no-frozen-lockfile
+      - run: pnpm lint
+      - run: pnpm format:check
       - run: pnpm typecheck
+
+      # 供應鏈稽核閘門（Ark 前端規範 §5.23.0）。
+      #
+      # 由來是一個不對稱：後端每個專案的 CI 都有 pip-audit，前端從來沒有對應
+      # 要求。而前端最近兩個最大的安全發現（dompurify XSS、react-router 未認證
+      # RCE）都出自少數碰巧有在跑的專案，不是被規範抓到的。
+      #
+      # --prod 是刻意的：devDependencies 的弱點不會進到使用者手上。
+      - run: pnpm audit --prod
+
       - run: pnpm build

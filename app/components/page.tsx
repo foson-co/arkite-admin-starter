@@ -65,11 +65,7 @@ export default function ComponentsPage() {
       />
 
       <Breadcrumb
-        items={[
-          { label: 'Home', href: '/' },
-          { label: 'Library' },
-          { label: 'Components' },
-        ]}
+        items={[{ label: 'Home', href: '/' }, { label: 'Library' }, { label: 'Components' }]}
         renderLink={({ href, children, className }) => (
           <Link href={href} className={className}>
             {children}
@@ -77,7 +73,11 @@ export default function ComponentsPage() {
         )}
       />
 
-      <CollapsibleSection title="Inputs" description="Form controls beyond Input/Select" defaultOpen>
+      <CollapsibleSection
+        title="Inputs"
+        description="Form controls beyond Input/Select"
+        defaultOpen
+      >
         <div className="grid gap-6 py-4 sm:grid-cols-2">
           <div className="space-y-1.5">
             <p className="text-sm font-medium">SearchInput (debounced)</p>
@@ -113,7 +113,11 @@ export default function ComponentsPage() {
           </div>
           <div className="space-y-1.5">
             <p className="text-sm font-medium">ColorPicker</p>
-            <ColorPicker value={color} onChange={setColor} presets={['#6a4dff', '#0ea5e9', '#16a34a', '#dc2626']} />
+            <ColorPicker
+              value={color}
+              onChange={setColor}
+              presets={['#6a4dff', '#0ea5e9', '#16a34a', '#dc2626']}
+            />
           </div>
           <div className="space-y-1.5">
             <p className="text-sm font-medium">PasswordInput</p>
@@ -121,7 +125,11 @@ export default function ComponentsPage() {
           </div>
           <div className="space-y-3">
             <p className="text-sm font-medium">Checkbox / RadioGroup / Kbd</p>
-            <Checkbox label="Email me on failures" description="Only critical ones" defaultChecked />
+            <Checkbox
+              label="Email me on failures"
+              description="Only critical ones"
+              defaultChecked
+            />
             <RadioGroup
               name="digest"
               orientation="horizontal"
@@ -132,7 +140,7 @@ export default function ComponentsPage() {
                 { value: 'never', label: 'Never' },
               ]}
             />
-            <p className="text-sm text-muted-foreground">
+            <p className="text-muted-foreground text-sm">
               Save with <Kbd>⌘</Kbd> + <Kbd>S</Kbd>
             </p>
           </div>
@@ -188,7 +196,7 @@ export default function ComponentsPage() {
               ]}
             />
             <Divider label="or" />
-            <p className="text-sm text-muted-foreground">
+            <p className="text-muted-foreground text-sm">
               <Popover>
                 <PopoverTrigger asChild>
                   <Button variant="outline" size="sm">

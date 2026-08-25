@@ -17,15 +17,15 @@ pnpm dev        # http://localhost:3000
 
 ## What's inside
 
-| Page | Demonstrates |
-|------|--------------|
-| `/` Dashboard | `StatGroup`/`StatCard` KPIs, `Sparkline`, `StatusDot` service health, `Progress` quotas, lightweight `Table` family list, `Timeline` |
-| `/users` | **Server-side table**: `useServerTable` + `DataTable` (`totalRows`, `compact`, `rowClassName`, column filters), row-click detail `Drawer` + `DescriptionList`, `selectable` + `BulkActionBar` |
-| `/billing` | `FilterBar` family, `DateRangePicker`, `ViewToggle` table/card views, `DropdownMenu` row actions, `CopyButton` + `Tooltip`, `ConfirmDialog`, `EmptyState` |
-| `/activity` | `InfiniteScroll` cursor-paginated feed, `SegmentedControl` filter |
-| `/settings` | `Tabs`, `Form` family, `Avatar` + headless `FileTrigger` logo picker, `Switch`, danger zone with `Alert` + `DeleteConfirmDialog`, `toast.fromError` |
+| Page          | Demonstrates                                                                                                                                                                                                                                                                              |
+| ------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `/` Dashboard | `StatGroup`/`StatCard` KPIs, `Sparkline`, `StatusDot` service health, `Progress` quotas, lightweight `Table` family list, `Timeline`                                                                                                                                                      |
+| `/users`      | **Server-side table**: `useServerTable` + `DataTable` (`totalRows`, `compact`, `rowClassName`, column filters), row-click detail `Drawer` + `DescriptionList`, `selectable` + `BulkActionBar`                                                                                             |
+| `/billing`    | `FilterBar` family, `DateRangePicker`, `ViewToggle` table/card views, `DropdownMenu` row actions, `CopyButton` + `Tooltip`, `ConfirmDialog`, `EmptyState`                                                                                                                                 |
+| `/activity`   | `InfiniteScroll` cursor-paginated feed, `SegmentedControl` filter                                                                                                                                                                                                                         |
+| `/settings`   | `Tabs`, `Form` family, `Avatar` + headless `FileTrigger` logo picker, `Switch`, danger zone with `Alert` + `DeleteConfirmDialog`, `toast.fromError`                                                                                                                                       |
 | `/components` | Gallery of the remaining primitives: `SearchInput`/`NumberInput`/`DatePicker`/`Combobox`/`TagInput`/`ColorPicker`/`PasswordInput`/`Checkbox`/`RadioGroup`/`Kbd`, `Skeleton`/`Spinner`/`ErrorState`, `Steps`/`Calendar`/`Breadcrumb`/`Popover`/`CollapsibleSection`, 10k-row `VirtualList` |
-| Shell | `AdminLayout` with Next.js `Link` integration, `TenantSwitcher`, **⌘K `CommandDialog` palette**, `hideSidebar="mobile"` + `bottomNav` |
+| Shell         | `AdminLayout` with Next.js `Link` integration, `TenantSwitcher`, **⌘K `CommandDialog` palette**, `hideSidebar="mobile"` + `bottomNav`                                                                                                                                                     |
 
 ## Where your code goes
 

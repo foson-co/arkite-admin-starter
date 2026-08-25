@@ -35,7 +35,7 @@ export const DB: User[] = Array.from({ length: 137 }, (_, i) => ({
 }))
 
 export function queryUsers({ page, pageSize, sortKey, sortDir, role }: UsersQuery): UsersResult {
-  let rows = role && role.length > 0 ? DB.filter((u) => role.includes(u.role)) : [...DB]
+  const rows = role && role.length > 0 ? DB.filter((u) => role.includes(u.role)) : [...DB]
 
   if (sortKey && sortDir) {
     rows.sort((a, b) => {

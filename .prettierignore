@@ -1,0 +1,10 @@
+# Prettier 的涵蓋範圍以本檔為單一事實來源。
+#
+# `format` / `format:check` 刻意跑 `prettier .`（全 repo）而不列舉 glob——
+# 列舉的話 lint-staged、format script 與 CI 三邊會各自漂開，而「只看得到被碰過
+# 的檔案」正是格式漂移能無聲累積的原因（arkite-ui issue #25：那邊累積了 238 個）。
+
+node_modules/
+.next/
+out/
+pnpm-lock.yaml

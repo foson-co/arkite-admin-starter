@@ -73,7 +73,7 @@ export default function DashboardPage() {
                     />
                     {s.name}
                   </span>
-                  <span className="flex items-center gap-2 text-muted-foreground">
+                  <span className="text-muted-foreground flex items-center gap-2">
                     {s.latency}
                     <Badge variant={s.status === 'online' ? 'success' : 'warning'}>
                       {s.status}
@@ -115,7 +115,7 @@ export default function DashboardPage() {
         <Card>
           <CardHeader title="Explore this starter" />
           <CardContent>
-            <ul className="space-y-3 text-sm text-muted-foreground">
+            <ul className="text-muted-foreground space-y-3 text-sm">
               <li>
                 Server-driven tables —{' '}
                 <Button variant="link" onClick={() => (location.href = './users/')}>
