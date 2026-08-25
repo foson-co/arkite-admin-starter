@@ -34,7 +34,7 @@ jobs:
       # 不依賴 main；scanner 的 exit code 是失敗項目數，99 代表檢查未執行。
       - name: Ark frontend compliance
         run: |
-          git clone --depth 1 --branch scanner-2026-08-25 +            https://github.com/foson-co/arkite-frontend-scanner.git /tmp/ark-scanner
+          git clone --depth 1 --branch scanner-2026-08-25 https://github.com/foson-co/arkite-frontend-scanner.git /tmp/ark-scanner
           bash /tmp/ark-scanner/scripts/check-compliance.sh "$GITHUB_WORKSPACE"
 
       - run: pnpm build
