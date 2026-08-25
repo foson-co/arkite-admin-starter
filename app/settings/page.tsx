@@ -77,9 +77,7 @@ export default function SettingsPage() {
                     Change logo
                   </Button>
                 </FileTrigger>
-                {logoName && (
-                  <span className="text-sm text-muted-foreground">{logoName}</span>
-                )}
+                {logoName && <span className="text-muted-foreground text-sm">{logoName}</span>}
               </div>
 
               <FormField name="workspace-name">

@@ -37,5 +37,5 @@ jobs:
             put "$(echo "$e" | tr '/' '-')"
           done
           true
-          
+
           gh api "repos/$R" > /tmp/x.json && put repo-stats

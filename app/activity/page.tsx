@@ -91,7 +91,7 @@ export default function ActivityPage() {
                   <p className="font-medium">{a.title}</p>
                   <p className="text-muted-foreground">{a.detail}</p>
                 </div>
-                <span className="flex shrink-0 items-center gap-2 text-muted-foreground">
+                <span className="text-muted-foreground flex shrink-0 items-center gap-2">
                   {a.when}
                   <Badge variant={KIND_VARIANT[a.kind]}>{a.kind}</Badge>
                 </span>

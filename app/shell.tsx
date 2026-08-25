@@ -18,7 +18,16 @@ import {
   type AdminNavGroup,
   type TenantItem,
 } from '@arkite-ui/core'
-import { BarChart3, CreditCard, History, Home, LayoutGrid, Search, Settings, Users } from 'lucide-react'
+import {
+  BarChart3,
+  CreditCard,
+  History,
+  Home,
+  LayoutGrid,
+  Search,
+  Settings,
+  Users,
+} from 'lucide-react'
 import { useState, type ReactNode } from 'react'
 
 // ── App-level wiring, done once ────────────────────────────────────────
@@ -83,19 +92,13 @@ export function AppShell({ children }: { children: ReactNode }) {
           {children}
         </Link>
       )}
-      navbarLeft={
-        <TenantSwitcher
-          tenants={tenants}
-          value={tenant}
-          onChange={setTenant}
-        />
-      }
+      navbarLeft={<TenantSwitcher tenants={tenants} value={tenant} onChange={setTenant} />}
       navbarRight={
         <Button
           variant="outline"
           size="sm"
           onClick={() => palette.setOpen(true)}
-          className="gap-2 text-muted-foreground"
+          className="text-muted-foreground gap-2"
         >
           <Search size={14} />
           Search…
@@ -124,9 +127,12 @@ export function AppShell({ children }: { children: ReactNode }) {
       {children}
 
       {/* Delete freely — or leave it and every deploy links the library */}
-      <footer className="mt-10 border-t pt-4 text-center text-xs text-muted-foreground">
+      <footer className="text-muted-foreground mt-10 border-t pt-4 text-center text-xs">
         Built with{' '}
-        <a href="https://ui.foson.co" className="underline underline-offset-2 hover:text-foreground">
+        <a
+          href="https://ui.foson.co"
+          className="hover:text-foreground underline underline-offset-2"
+        >
           Arkite UI
         </a>{' '}
         — React components for SaaS admin panels
