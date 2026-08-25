@@ -30,4 +30,11 @@ jobs:
       # --prod 是刻意的：devDependencies 的弱點不會進到使用者手上。
       - run: pnpm audit --prod
 
+      # 公開範本也要驗證自己的 frontend compliance。固定 scanner tag，
+      # 不依賴 main；scanner 的 exit code 是失敗項目數，99 代表檢查未執行。
+      - name: Ark frontend compliance
+        run: |
+          git clone --depth 1 --branch scanner-2026-08-25 +            https://github.com/foson-co/arkite-frontend-scanner.git /tmp/ark-scanner
+          bash /tmp/ark-scanner/scripts/check-compliance.sh "$GITHUB_WORKSPACE"
+
       - run: pnpm build
