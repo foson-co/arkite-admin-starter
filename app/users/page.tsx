@@ -20,11 +20,12 @@ import {
   type Column,
 } from '@arkite-ui/core'
 
+import { env } from '../../lib/env'
 import { queryUsers, type User } from '../../lib/mock-users'
 
 // The hosted live demo is a static export with no server — it calls the mock
 // directly in the browser. Your real app keeps the fetch path only.
-const IS_STATIC_DEMO = process.env.NEXT_PUBLIC_STATIC_DEMO === '1'
+const IS_STATIC_DEMO = env.NEXT_PUBLIC_STATIC_DEMO === '1'
 
 const columns: Column<User>[] = [
   { key: 'name', header: 'Name', sortable: true },
@@ -58,6 +59,11 @@ export default function UsersPage() {
 
   useEffect(() => {
     let cancelled = false
+    // 這是「查詢條件變了就重新抓」的 effect，把 loading 旗標立刻打開是它的正確
+    // 行為——規則針對的是用 effect 從既有 state 推導出新 state 的那種串聯渲染。
+    // 若要完全免除這條規則，做法是改用查詢函式庫（TanStack Query 之類）由它
+    // 管理 loading；這個範本刻意不帶那個相依，所以保留 effect 並在此說明。
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setLoading(true)
     const { page, pageSize, sort, filters } = table.query
     const query = {
@@ -75,7 +81,12 @@ export default function UsersPage() {
           `/api/users?${new URLSearchParams([
             ['page', String(query.page)],
             ['pageSize', String(query.pageSize)],
-            ...(query.sortKey ? ([['sortKey', query.sortKey], ['sortDir', query.sortDir!]] as [string, string][]) : []),
+            ...(query.sortKey
+              ? ([
+                  ['sortKey', query.sortKey],
+                  ['sortDir', query.sortDir!],
+                ] as [string, string][])
+              : []),
             ...query.role.map((r): [string, string] => ['role', r]),
           ])}`
         ).then((res) => {

@@ -1,0 +1,31 @@
+# Pre-commit hooks（Ark 前端規範 §5.16）
+# 由 .husky/pre-commit 經 `uvx pre-commit run` 觸發；手動全掃：uvx pre-commit run --all-files
+#
+# 這個 repo 是純 TypeScript，沒有其他 consumer 那段 ruff（他們是 Python 後端同倉）。
+# 前端的 ESLint / Prettier 由 lint-staged 負責，不在這裡重複。
+
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: trailing-whitespace
+        exclude: (^|/)pnpm-lock\.yaml$
+      - id: end-of-file-fixer
+        exclude: (^|/)pnpm-lock\.yaml$
+      - id: check-yaml
+      - id: check-json
+        # tsconfig 允許註解（JSONC）
+        exclude: (tsconfig.*\.json|(^|/)pnpm-lock\.yaml$)
+      - id: check-added-large-files
+        args: ['--maxkb=1000']
+      - id: check-merge-conflict
+      - id: detect-private-key
+
+  - repo: https://github.com/Yelp/detect-secrets
+    rev: v1.5.0
+    hooks:
+      - id: detect-secrets
+        args: ['--baseline', '.secrets.baseline']
+        # lock 檔整份都是 integrity hash，逐行都是高熵字串 ⇒ 全量誤報。
+        # baseline 記的是行號，lock 一重生就全部對不上 ⇒ 每次改依賴都紅。
+        exclude: (^|/)pnpm-lock\.yaml$
